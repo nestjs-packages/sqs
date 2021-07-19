@@ -1,0 +1,38 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout code
+      - uses: actions/setup-node@v1
+        name: Use Node.js ${{ matrix.node-version }}
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: start localstack container
+        env:
+          LOCALSTACK_PORT: 4566
+          AWS_SQS_REGION: ap-northeast-2
+          AWS_SQS_ACCESS_KEY_ID: temp
+          AWS_SQS_SECRET_ACCESS_KEY: temp
+          AWS_SQS_END_POINT: http://localhost:4566
+          AWS_SQS_ACCOUNT_NUMBER: 000000000000
+        run: docker-compose -f "docker-compose.yml" up -d
+      - name: npm install
+        run: npm ci
+      - name: check lint
+        run: npm run lint
+      - name: test e2e
+        run: npm run test e2e
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: stop localstack container
+        run: docker-compose -f "docker-compose.yml" down
