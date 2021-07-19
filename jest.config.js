@@ -6,12 +6,8 @@ module.exports = {
     '^.+\\.tsx?$': 'ts-jest',
   },
   testRegex: '/lib/.*\\.(test|spec).(ts|tsx|js)$',
-  collectCoverageFrom: [
-    'lib/**/*.{js,jsx,tsx,ts}',
-    '!**/node_modules/**',
-    '!**/vendor/**',
-    '!**/*.spec.ts',
-  ],
+  collectCoverage: true,
+  collectCoverageFrom: ['lib/**/*.{js,jsx,tsx,ts}', '!**/node_modules/**', '!**/vendor/**', '!**/*.spec.ts'],
   coverageReporters: ['lcov'],
   coverageDirectory: 'coverage/unit',
 };
