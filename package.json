@@ -1,0 +1,19 @@
+{
+  "name": "@pickk/nestjs-sqs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEV-MUGLES/nestjs-sqs.git"
+  },
+  "author": "byeonghoon yang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DEV-MUGLES/nestjs-sqs/issues"
+  },
+  "homepage": "https://github.com/DEV-MUGLES/nestjs-sqs#readme"
+}
