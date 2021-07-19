@@ -20,7 +20,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     const sqsConfig = SqsStorage.getConfig();
     const sqsQueueOptions = SqsStorage.getQueueOptions();
     const sqs: SQS = new SQS(sqsConfig);
-    console.log(sqsQueueOptions);
+
     const sqsQueueConsumerOptions = sqsQueueOptions.filter(
       (v) => v.type === SqsQueueType.All || v.type === SqsQueueType.Consumer,
     );

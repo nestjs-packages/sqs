@@ -9,11 +9,11 @@
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./lib",
     "skipLibCheck": true,
-    "baseUrl": "./"
+    "outDir": "./dist",
+    "rootDir": ".",
+    "baseUrl": "."
   },
-  "include": ["lib", "e2e"],
-  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+  "include": ["lib"],
+  "exclude": ["node_modules", "dist", "test", "e2e"]
 }

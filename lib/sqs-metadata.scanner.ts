@@ -13,6 +13,7 @@ export class SqsMetadataScanner implements OnModuleInit {
 
   public async onModuleInit(): Promise<void> {
     const processes = await this.discover.providersWithMetaAtKey<SqsProcessMeta>(SQS_PROCESS);
+
     await Promise.all(
       processes.map(
         (process) =>
@@ -27,6 +28,7 @@ export class SqsMetadataScanner implements OnModuleInit {
               discoveredClass,
               SQS_CONSUMER_EVENT_HANDLER,
             );
+
             const {
               meta: { batch },
               discoveredMethod: messageMethod,

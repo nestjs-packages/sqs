@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig",
-  "include": ["lib", "e2e"],
+  "include": ["lib", "e2e", "test"],
   "exclude": ["node_modules"]
 }
