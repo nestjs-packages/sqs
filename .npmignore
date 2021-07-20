@@ -4,6 +4,8 @@ coverage/
 e2e/
 lib/
 node_modules/
+test/
+scripts/
 tsconfig.json
 tsconfig.eslint.json
 .prettierignore
