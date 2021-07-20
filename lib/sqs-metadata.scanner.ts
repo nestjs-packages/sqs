@@ -20,10 +20,14 @@ export class SqsMetadataScanner implements OnModuleInit {
           new Promise((resolve) => {
             const { meta, discoveredClass } = process;
 
-            const messageHandlerMetadata = this.discover.classMethodsWithMetaAtKey<SqsMessageHandlerMeta>(
+            const messageHandlerMetadatas = this.discover.classMethodsWithMetaAtKey<SqsMessageHandlerMeta>(
               discoveredClass,
               SQS_CONSUMER_METHOD,
-            )[0];
+            );
+            if (messageHandlerMetadatas.length > 1) {
+              throw new Error("can't register multiple message handlers");
+            }
+
             const eventHandlerMetadatas = this.discover.classMethodsWithMetaAtKey<SqsConsumerEventHandlerMeta>(
               discoveredClass,
               SQS_CONSUMER_EVENT_HANDLER,
@@ -32,7 +36,7 @@ export class SqsMetadataScanner implements OnModuleInit {
             const {
               meta: { batch },
               discoveredMethod: messageMethod,
-            } = messageHandlerMetadata;
+            } = messageHandlerMetadatas[0];
 
             const sqsMetadata: SqsMetadata = {
               name: meta.name,

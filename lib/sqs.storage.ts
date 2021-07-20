@@ -13,7 +13,7 @@ export class SqsStorage {
   }
 
   public static setConfig(config: SqsConfig) {
-    if (this.config !== undefined) {
+    if (this.config !== undefined || this.config !== null) {
       console.warn('config is already setted');
     }
     this.config = config;
@@ -27,5 +27,10 @@ export class SqsStorage {
       };
     });
     this.queueOptions.push(...queueOptions);
+  }
+
+  public static reset() {
+    this.config = null;
+    this.queueOptions = [];
   }
 }

@@ -45,10 +45,14 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     const { endpoint, accountNumber, region } = SqsStorage.getConfig();
     const { name, consumerOptions } = option;
     const metadata: SqsMetadata = this.scanner.sqsMetadatas.get(name);
+    if (!metadata) {
+      throw new Error('no consumer metadata provided.');
+    }
     const {
       messageHandler: { batch, handleMessage },
       eventHandler: eventHandlers,
     } = metadata;
+
     const consumer = Consumer.create({
       queueUrl: `${endpoint}/${accountNumber}/${name}`,
       region,
@@ -109,7 +113,11 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
       queueUrl,
     };
   }
-
+  /**
+   * delete all of the messages from queue
+   * @param name queue name that wants to purge
+   * @returns
+   */
   public async purgeQueue(name: QueueName) {
     const { sqs, queueUrl } = this.getQueueInfo(name);
     return sqs
@@ -145,18 +153,14 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
 
     const originalMessages = Array.isArray(payload) ? payload : [payload];
     const messages = originalMessages.map((message) => {
-      let body = message.body;
-      if (typeof body !== 'string') {
-        body = JSON.stringify(body) as any;
-      }
-
+      const { body } = message;
       return {
         ...message,
-        body,
+        body: typeof body !== 'string' ? JSON.stringify(body) : body,
       };
     });
 
     const producer = this.producers.get(name);
-    return producer.send(messages as any[]);
+    return producer.send(messages);
   }
 }
