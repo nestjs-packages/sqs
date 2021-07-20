@@ -5,8 +5,8 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testRegex: '/test/.*\\.(test|spec).(ts|tsx|js)$',
+  testRegex: 'test/.*\\.(test|spec).(ts|tsx|js)$',
   collectCoverageFrom: ['lib/**/*.{js,jsx,tsx,ts}', '!**/node_modules/**', '!**/vendor/**', '!**/*.spec.ts'],
-  coverageReporters: ['lcov', 'json'],
+  coverageReporters: ['lcov', 'json', 'text'],
   coverageDirectory: 'coverage/unit',
 };
