@@ -19,7 +19,7 @@
     "url": "git+https://github.com/DEV-MUGLES/nestjs-sqs.git"
   },
   "author": "byeonghoon yang",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/DEV-MUGLES/nestjs-sqs/issues"
   },

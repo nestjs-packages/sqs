@@ -2,6 +2,8 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
+<a href="https://www.npmjs.com/package/@pickk/nestjs-sqs" target="_blank"><img src="https://img.shields.io/npm/v/@pickk/nestjs-sqs.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/@pickk/nestjs-sqs" target="_blank"><img src="https://img.shields.io/npm/l/@pickk/nestjs-sqs.svg" alt="Package License" /></a>
 [![codecov](https://codecov.io/gh/DEV-MUGLES/nestjs-sqs/branch/master/graph/badge.svg?token=pMLNZOxXiq)](https://codecov.io/gh/DEV-MUGLES/nestjs-sqs)
 
 # @pickk/nestjs-sqs
@@ -31,15 +33,16 @@ after forRootAsync method called, every sqs produers and consumers use SQS confi
     SqsModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService) => {
-        return {
-          region: 'ap-northeast-2',
-          endpoint: 'http://localhost:4566',
-          accountNumber: '000000000000',
+        const config = {
+          region: configSerivce.region,
+          endpoint: configSerivce.endpoint,
+          accountNumber: configSerivce.accountNumber,
           credentials: {
-            accessKeyId: 'temp',
-            secretAccessKey: 'temp',
+            accessKeyId: configSerivce.accessKeyId,
+            secretAccessKey: configService.secretAccessKey,
           },
         };
+        return SqsConfig(config);
       },
       injects: [ConfigSerivce],
     }),
@@ -51,6 +54,7 @@ class AppModule {}
 #### registerQueue
 
 Second you have to register queues. register queues means create sqs-producer and sqs-consumer by queueOptions that passed into registerQueue parameter
+default type of queueOption is 'ALL'
 
 ```ts
 SqsModule.registerQueue(
