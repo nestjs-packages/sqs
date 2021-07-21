@@ -1,7 +1,8 @@
 import * as SQS from 'aws-sdk/clients/sqs';
 import { ModuleMetadata } from '@nestjs/common';
 
-import { SqsConfig, SqsConsumerEvent } from './sqs.types';
+import { SqsConsumerEvent } from './sqs.types';
+import { SqsConfig } from './sqs.config';
 
 export interface Message<T = any> {
   id: string;

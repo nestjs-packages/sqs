@@ -11,7 +11,7 @@ import {
   SqsQueueOptions,
   SqsQueueType,
   SqsConsumerEvent,
-  SqsStorage,
+  SqsConfig,
 } from '../lib';
 
 enum TestQueue {
@@ -41,38 +41,36 @@ const config = {
   },
 };
 
-const fakeProcessor = jest.fn();
-const fakeDLQProcessor = jest.fn();
-const fakeErrorEventHandler = jest.fn();
-
-@SqsProcess(TestQueue.Test)
-class TestHandler {
-  @SqsMessageHandler()
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public async handleTestMessage(message: AWS.SQS.Message) {
-    fakeProcessor(message);
-  }
-
-  @SqsConsumerEventHandler(SqsConsumerEvent.PROCESSING_ERROR)
-  public handleErrorEvent(err: Error, message: AWS.SQS.Message) {
-    fakeErrorEventHandler(err, message);
-  }
-}
-
-@SqsProcess(TestQueue.DLQ)
-class TestDLQHandler {
-  @SqsMessageHandler()
-  public async handleDLQMessage(message: AWS.SQS.Message) {
-    fakeDLQProcessor(message);
-  }
-}
-
 describe('SqsModule', () => {
   let module: TestingModule;
+  const fakeProcessor = jest.fn();
+  const fakeDLQProcessor = jest.fn();
+  const fakeErrorEventHandler = jest.fn();
+
+  @SqsProcess(TestQueue.Test)
+  class TestHandler {
+    @SqsMessageHandler()
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    public async handleTestMessage(message: AWS.SQS.Message) {
+      fakeProcessor(message);
+    }
+
+    @SqsConsumerEventHandler(SqsConsumerEvent.PROCESSING_ERROR)
+    public handleErrorEvent(err: Error, message: AWS.SQS.Message) {
+      fakeErrorEventHandler(err, message);
+    }
+  }
+
+  @SqsProcess(TestQueue.DLQ)
+  class TestDLQHandler {
+    @SqsMessageHandler()
+    public async handleDLQMessage(message: AWS.SQS.Message) {
+      fakeDLQProcessor(message);
+    }
+  }
 
   describe('forRootAsync', () => {
     afterAll(async () => {
-      SqsStorage.reset();
       await module.close();
     });
 
@@ -80,11 +78,12 @@ describe('SqsModule', () => {
       module = await Test.createTestingModule({
         imports: [
           SqsModule.forRootAsync({
-            useFactory: async () => config,
+            useFactory: async () => new SqsConfig(config),
           }),
         ],
       }).compile();
-      expect(SqsStorage.getConfig()).toMatchObject(config);
+      const sqsConfig = module.get<SqsConfig>(SqsConfig);
+      expect(sqsConfig.option).toMatchObject(config);
     });
   });
 
@@ -93,7 +92,7 @@ describe('SqsModule', () => {
       module = await Test.createTestingModule({
         imports: [
           SqsModule.forRootAsync({
-            useFactory: () => config,
+            useFactory: () => new SqsConfig(config),
           }),
           SqsModule.registerQueue(...TestQueueOptions),
         ],

@@ -23,7 +23,7 @@ export type SqsConsumerOptions = Omit<
 
 export type SqsProducerOptions = Omit<ProducerOptions, 'queueUrl' | 'region' | 'sqs'>;
 
-export type SqsConfig = SQS.Types.ClientConfiguration & {
+export type SqsConfigOption = SQS.Types.ClientConfiguration & {
   accountNumber: string;
 };
 

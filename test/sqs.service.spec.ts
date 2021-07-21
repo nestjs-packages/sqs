@@ -3,7 +3,7 @@ import { SQS } from 'aws-sdk';
 import { Consumer } from 'sqs-consumer';
 import { Producer } from 'sqs-producer';
 
-import { SqsConfig, SqsMetadataScanner, SqsModule } from '../lib';
+import { SqsConfig, SqsConfigOption, SqsMetadataScanner, SqsModule } from '../lib';
 import { SqsService } from '../lib/sqs.service';
 
 describe('SqsService', () => {
@@ -11,7 +11,7 @@ describe('SqsService', () => {
   let sqsService: SqsService;
   const mockQueueName = 'mockQueue';
   const mockQueueUrl = 'mockQueueUrl';
-  const mockConfig: SqsConfig = {
+  const mockConfig: SqsConfigOption = {
     region: 'region',
     endpoint: 'endpoint',
     accountNumber: '000000000000',
@@ -29,16 +29,16 @@ describe('SqsService', () => {
     module = await Test.createTestingModule({
       imports: [
         SqsModule.forRootAsync({
-          useFactory: () => mockConfig,
+          useFactory: () => new SqsConfig(mockConfig),
         }),
       ],
       providers: [
         {
           provide: SqsService,
-          useFactory: (scanner: SqsMetadataScanner) => {
-            return new SqsService(scanner);
+          useFactory: (scanner: SqsMetadataScanner, sqsConfig: SqsConfig) => {
+            return new SqsService(scanner, sqsConfig);
           },
-          inject: [SqsMetadataScanner],
+          inject: [SqsMetadataScanner, SqsConfig],
         },
       ],
     }).compile();

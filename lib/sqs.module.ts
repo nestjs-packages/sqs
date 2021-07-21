@@ -1,6 +1,7 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { DiscoveryModule, DiscoveryService } from '@nestjs-plus/discovery';
 
+import { SqsConfig } from './sqs.config';
 import { SqsService } from './sqs.service';
 import { SqsAsyncConfig } from './sqs.interfaces';
 import { SqsQueueOptions } from './sqs.types';
@@ -15,34 +16,35 @@ export class SqsModule {
 
     const SqsMetadatScanner: Provider = {
       provide: SqsMetadataScanner,
-      useFactory: async (discover: DiscoveryService) => {
+      useFactory: (discover: DiscoveryService) => {
         return new SqsMetadataScanner(discover);
       },
       inject: [DiscoveryService],
     };
-    this.setSqsConfig(asyncSqsConfig);
+
+    const SqsConfigProvider: Provider = {
+      provide: SqsConfig,
+      useFactory: asyncSqsConfig.useFactory,
+      inject: asyncSqsConfig.inject || [],
+    };
 
     return {
       global: true,
       module: SqsModule,
       imports: [...imports, DiscoveryModule],
-      providers: [SqsMetadatScanner],
-      exports: [SqsMetadatScanner],
+      providers: [SqsMetadatScanner, SqsConfigProvider],
+      exports: [SqsMetadatScanner, SqsConfigProvider],
     };
-  }
-
-  private static async setSqsConfig(options: SqsAsyncConfig) {
-    SqsStorage.setConfig(await options.useFactory());
   }
 
   public static registerQueue(...options: SqsQueueOptions) {
     SqsStorage.addQueueOptions([].concat(options));
     const sqsService: Provider = {
       provide: SqsService,
-      useFactory: async (scanner: SqsMetadataScanner) => {
-        return new SqsService(scanner);
+      useFactory: async (scanner: SqsMetadataScanner, sqsConfig: SqsConfig) => {
+        return new SqsService(scanner, sqsConfig);
       },
-      inject: [SqsMetadataScanner],
+      inject: [SqsMetadataScanner, SqsConfig],
     };
 
     return {
