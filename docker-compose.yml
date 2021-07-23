@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   localstack:
-    container_name: localstack
+    container_name: nestjs-sqs_localstack
     image: localstack/localstack:latest
     ports:
       - '${LOCALSTACK_PORT}:${LOCALSTACK_PORT}'
