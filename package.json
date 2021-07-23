@@ -5,14 +5,16 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "set": "cp .env.dev .env && docker-compose -f docker-compose.yml up",
+    "set:down": "docker-compose -f docker-compose.yml down --volumes && docker system prune",
+    "format": "npx prettier --write **/*.{ts,json}",
+    "lint": "npx eslint \"lib/**/*.ts\" --fix",
+    "build": "npx rimraf -rf dist && tsc -p tsconfig.json",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --runInBand --forceExit",
-    "build": "npx rimraf -rf dist && tsc -p tsconfig.json",
-    "format": "npx prettier --write **/*.{ts,json}",
-    "lint": "npx eslint \"lib/**/*.ts\" --fix",
-    "set": "cp .env.dev .env && docker-compose -f docker-compose.yml up",
-    "set:down": "docker-compose -f docker-compose.yml down --volumes && docker system prune"
+    "prepublish:npm": "npm run format && npm run lint && npm run test && npm run build",
+    "publish:npm": "npm publish --access public"
   },
   "repository": {
     "type": "git",
