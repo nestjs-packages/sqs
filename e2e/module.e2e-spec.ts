@@ -33,7 +33,7 @@ const TestQueueOptions: SqsQueueOptions = [
 
 const config = {
   region: process.env.AWS_SQS_REGION || 'ap-northeast-2',
-  endpoint: process.env.AWS_SQS_END_POINT || 'http://localhost:4566',
+  endpoint: process.env.AWS_SQS_END_POINT || 'http://localhost:4413',
   accountNumber: process.env.AWS_SQS_ACCOUNT_NUMBER || '000000000000',
   credentials: {
     accessKeyId: process.env.AWS_SQS_ACCESS_KEY_ID || 'temp',

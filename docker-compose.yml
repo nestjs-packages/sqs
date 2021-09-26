@@ -1,17 +1,8 @@
 version: '3.7'
 
 services:
-  localstack:
-    container_name: nestjs-sqs_localstack
-    image: localstack/localstack:latest
+  localsqs:
+    container_name: nestjs-sqs.localsqs
+    image: greatsumini/localsqs:0.1.1
     ports:
-      - '${LOCALSTACK_PORT}:${LOCALSTACK_PORT}'
-    environment:
-      - SERVICES=sqs
-      - DEBUG=1
-      - AWS_DEFAULT_REGION=${AWS_SQS_REGION}
-      - EDGE_PORT=${LOCALSTACK_PORT}
-    volumes:
-      - '${LOCALSTACK_TMPDIR:-/tmp/localstack}:/tmp/localstack'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - '${PWD}/scripts/sqs-local-setup.sh:/docker-entrypoint-initaws.d/sqs-local-setup.sh'
+      - '${LOCALSQS_PORT}:${LOCALSQS_PORT}'
