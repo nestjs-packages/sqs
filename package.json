@@ -1,5 +1,5 @@
 {
-  "name": "@pickk/nestjs-sqs",
+  "name": "@nestjs-packages/sqs",
   "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DEV-MUGLES/nestjs-sqs.git"
+    "url": "git+https://github.com/nestjs-packages/sqs.git"
   },
   "author": "byeonghoon yang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DEV-MUGLES/nestjs-sqs/issues"
+    "url": "https://github.com/nestjs-packages/sqs/issues"
   },
-  "homepage": "https://github.com/DEV-MUGLES/nestjs-sqs#readme",
+  "homepage": "https://github.com/nestjs-packages/sqs#readme",
   "dependencies": {
     "@nestjs-plus/discovery": "^2.0.2",
     "aws-sdk": "^2.948.0",
