@@ -34,7 +34,5 @@ jobs:
         run: npm run test:e2e
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
       - name: stop localstack container
         run: docker-compose -f "docker-compose.yml" down
