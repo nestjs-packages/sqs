@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   localsqs:
-    container_name: nestjs-sqs.localsqs
-    image: greatsumini/localsqs:0.1.1
+    container_name: sqs.localsqs
+    image: greatsumini/localsqs:0.2.0
     ports:
-      - '${LOCALSQS_PORT}:${LOCALSQS_PORT}'
+      - '4413:4413'
