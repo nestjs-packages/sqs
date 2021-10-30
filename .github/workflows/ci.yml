@@ -16,16 +16,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: start localsqs container
-        env:
-          LOCALSQS_PORT: 4413
-          AWS_SQS_REGION: ap-northeast-2
-          AWS_SQS_ACCESS_KEY_ID: temp
-          AWS_SQS_SECRET_ACCESS_KEY: temp
-          AWS_SQS_END_POINT: http://localhost:4413
-          AWS_SQS_ACCOUNT_NUMBER: 000000000000
-        run: docker-compose -f "docker-compose.yml" up -d
-
       - name: npm install
         run: npm ci
 
@@ -36,7 +26,9 @@ jobs:
         run: npm run test:cov
 
       - name: e2e test
-        run: npm run test:e2e
+        run: |
+          npm run set |
+          npm run test:e2e
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1

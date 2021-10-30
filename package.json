@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "set": "cp .env.dev .env && docker-compose -f docker-compose.yml up",
+    "set": "docker-compose -f docker-compose.yml up",
     "set:down": "docker-compose -f docker-compose.yml down --volumes && docker system prune",
     "format": "npx prettier --write **/*.{ts,json}",
     "lint": "npx eslint \"lib/**/*.ts\" --fix",
