@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Checkout code
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         name: Use Node.js ${{ matrix.node-version }}
         with:
           node-version: ${{ matrix.node-version }}
@@ -28,12 +28,10 @@ jobs:
       - name: e2e test
         run: |
           npm run set |
-          npm run test:e2e
+          npm run test:e2e |
+          npm run set:down
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: stop localsqs container
-        run: docker-compose -f "docker-compose.yml" down

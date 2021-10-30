@@ -1,12 +1,25 @@
 <p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+  <a href="http://nestjs.com/" target="blank">
+    <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" />
+  </a>
+  <a href="https://github.com/nestjs-packages/sqs" target="blank">
+    <h1 align="center">@nestjs-packages/sqs</h1>
+  </a>
 </p>
 
-<a href="https://www.npmjs.com/package/@pickk/nestjs-sqs" target="_blank"><img src="https://img.shields.io/npm/v/@pickk/nestjs-sqs.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/package/@pickk/nestjs-sqs" target="_blank"><img src="https://img.shields.io/npm/l/@pickk/nestjs-sqs.svg" alt="Package License" /></a>
-[![codecov](https://codecov.io/gh/DEV-MUGLES/nestjs-sqs/branch/master/graph/badge.svg?token=pMLNZOxXiq)](https://codecov.io/gh/DEV-MUGLES/nestjs-sqs)
+<p align="center">
+  <a href="https://www.npmjs.com/package/@nestjs-packages/sqs" target="_blank">
+    <img src="https://img.shields.io/npm/v/@nestjs-packages/sqs.svg" alt="NPM Version" />
+  </a>
+  <a href="https://www.npmjs.com/package/@nestjs-packages/sqs" target="_blank">
+    <img src="https://img.shields.io/npm/l/@nestjs-packages/sqs.svg" alt="Package License" />
+  </a>
+  <a href="https://codecov.io/gh/nestjs-packages/sqs" target="_blank">
+    <img src="https://codecov.io/gh/nestjs-packages/sqs/branch/master/graph/badge.svg?token=pMLNZOxXiq" alt="codecov coverage" />
+  </a>
+</p>
 
-# @pickk/nestjs-sqs
+## Description
 
 nestjs-sqs is a project to make SQS easier to use and control some required flows with NestJS. This module provides decorator-based message handling suited for simple use.
 
@@ -14,8 +27,10 @@ This library internally uses [bbc/sqs-producer](https://github.com/bbc/sqs-produ
 
 ## Installation
 
-```shell script
-$ npm i --save @pickk/nestjs-sqs
+```sh
+$ npm i --save @nestjs-packages/sqs
+# or
+$ yarn add @nestjs-packages/sqs
 ```
 
 ## Quick Start

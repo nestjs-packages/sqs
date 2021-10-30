@@ -1,12 +1,12 @@
 {
-  "name": "@pickk/nestjs-sqs",
-  "version": "1.0.3",
+  "name": "@nestjs-packages/sqs",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "set": "docker-compose -f docker-compose.yml up",
-    "set:down": "docker-compose -f docker-compose.yml down --volumes && docker system prune",
+    "set:down": "docker-compose -f docker-compose.yml down",
     "format": "npx prettier --write **/*.{ts,json}",
     "lint": "npx eslint \"lib/**/*.ts\" --fix",
     "build": "npx rimraf -rf dist && tsc -p tsconfig.json",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DEV-MUGLES/nestjs-sqs.git"
+    "url": "git+https://github.com/nestjs-packages/sqs.git"
   },
   "author": "byeonghoon yang",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/DEV-MUGLES/nestjs-sqs/issues"
+    "url": "https://github.com/nestjs-packages/sqs/issues"
   },
-  "homepage": "https://github.com/DEV-MUGLES/nestjs-sqs#readme",
+  "homepage": "https://github.com/nestjs-packages/sqs#readme",
   "dependencies": {
     "@nestjs-plus/discovery": "^2.0.2",
     "aws-sdk": "^2.948.0",
@@ -33,28 +33,28 @@
     "sqs-producer": "^2.1.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^7.4.2",
-    "@nestjs/core": "^7.4.2",
-    "@nestjs/testing": "^7.4.2",
-    "@types/faker": "^5.5.7",
-    "@types/jest": "^26.0.9",
-    "@typescript-eslint/eslint-plugin": "^3.8.0",
-    "@typescript-eslint/parser": "^3.8.0",
-    "codecov": "^3.8.2",
-    "eslint": "^7.6.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "faker": "^5.5.3",
-    "jest": "^26.2.2",
-    "prettier": "^2.0.5",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "rxjs": "^6.6.2",
-    "ts-jest": "^26.1.4",
-    "ts-node": "^8.10.2",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.9.7",
-    "wait-for-expect": "^3.0.2"
+    "@nestjs/common": "8.1.2",
+    "@nestjs/core": "8.1.2",
+    "@nestjs/testing": "8.1.2",
+    "@types/faker": "5.5.9",
+    "@types/jest": "27.0.2",
+    "@typescript-eslint/eslint-plugin": "5.2.0",
+    "@typescript-eslint/parser": "5.2.0",
+    "codecov": "3.8.3",
+    "eslint": "7.32.0",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-import": "2.25.2",
+    "faker": "5.5.3",
+    "jest": "26.6.3",
+    "prettier": "2.4.1",
+    "reflect-metadata": "0.1.13",
+    "rimraf": "3.0.2",
+    "rxjs": "7.4.0",
+    "ts-jest": "26.5.6",
+    "ts-node": "10.4.0",
+    "tsconfig-paths": "3.11.0",
+    "typescript": "4.4.4",
+    "wait-for-expect": "3.0.2"
   },
   "peerDependencies": {
     "@nestjs/common": "^6.0.0 || ^7.0.0 || ^8.0.0",
