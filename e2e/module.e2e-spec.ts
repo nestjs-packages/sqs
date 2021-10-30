@@ -9,14 +9,12 @@ import {
   SqsConsumerEventHandler,
   SqsMessageHandler,
   SqsQueueOptions,
-  SqsQueueType,
   SqsConsumerEvent,
   SqsConfig,
 } from '../lib';
 
 enum TestQueue {
   Test = 'test',
-  DLQ = 'test-dead',
 }
 const TestQueueOptions: SqsQueueOptions = [
   {
@@ -28,16 +26,15 @@ const TestQueueOptions: SqsQueueOptions = [
       messageAttributeNames: ['All'],
     },
   },
-  { name: TestQueue.DLQ, type: SqsQueueType.Consumer, consumerOptions: { waitTimeSeconds: 1 } },
 ];
 
 const config = {
-  region: process.env.AWS_SQS_REGION || 'ap-northeast-2',
-  endpoint: process.env.AWS_SQS_END_POINT || 'http://localhost:4413',
-  accountNumber: process.env.AWS_SQS_ACCOUNT_NUMBER || '000000000000',
+  region: 'ap-northeast-2',
+  endpoint: 'http://localhost:4413',
+  accountNumber: '000000000000',
   credentials: {
-    accessKeyId: process.env.AWS_SQS_ACCESS_KEY_ID || 'temp',
-    secretAccessKey: process.env.AWS_SQS_SECRET_ACCESS_KEY || 'temp',
+    accessKeyId: 'temp',
+    secretAccessKey: 'temp',
   },
 };
 
@@ -58,14 +55,6 @@ describe('SqsModule', () => {
     @SqsConsumerEventHandler(SqsConsumerEvent.PROCESSING_ERROR)
     public handleErrorEvent(err: Error, message: AWS.SQS.Message) {
       fakeErrorEventHandler(err, message);
-    }
-  }
-
-  @SqsProcess(TestQueue.DLQ)
-  class TestDLQHandler {
-    @SqsMessageHandler()
-    public async handleDLQMessage(message: AWS.SQS.Message) {
-      fakeDLQProcessor(message);
     }
   }
 
@@ -96,7 +85,7 @@ describe('SqsModule', () => {
           }),
           SqsModule.registerQueue(...TestQueueOptions),
         ],
-        providers: [TestHandler, TestDLQHandler],
+        providers: [TestHandler],
       }).compile();
       await module.init();
     });
@@ -190,18 +179,6 @@ describe('SqsModule', () => {
         groupId: 'test',
         deduplicationId: id,
       });
-    });
-
-    it('should consume a dead letter from DLQ', async () => {
-      jest.setTimeout(10000);
-
-      await waitForExpect(
-        () => {
-          expect(fakeDLQProcessor.mock.calls.length).toBe(1);
-        },
-        9900,
-        500,
-      );
     });
   });
 });
