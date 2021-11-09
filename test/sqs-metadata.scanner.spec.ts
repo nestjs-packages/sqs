@@ -85,7 +85,7 @@ describe('SqsMetadataScanner', () => {
     },
   ];
   describe('onModuleInit', () => {
-    it('성공적으로 데이터를 저장한다.', async () => {
+    it('should store metadatas', async () => {
       const methodName = faker.datatype.string(10);
       const eventName = faker.datatype.string(10);
       const eventCount = faker.datatype.number({ min: 1, max: 5 });

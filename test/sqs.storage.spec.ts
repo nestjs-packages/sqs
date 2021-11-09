@@ -3,7 +3,7 @@ import { SqsQueueOption, SqsQueueOptions, SqsQueueType, SqsStorage } from '../li
 
 describe('SqsStorage', () => {
   describe('addQueueOptions', () => {
-    it('성공적으로 queueOptions을 추가한다.', () => {
+    it('should add queue option', () => {
       const queueOptionCount = faker.datatype.number({ min: 1, max: 10 });
       const queueOptions: SqsQueueOptions = Array.from(Array(queueOptionCount)).map(() => ({
         name: faker.datatype.string(10),
@@ -12,7 +12,8 @@ describe('SqsStorage', () => {
       SqsStorage.addQueueOptions(queueOptions);
       expect(SqsStorage.getQueueOptions()).toMatchObject(queueOptions);
     });
-    it('type을 전달하지 않으면, ALL로 설정한다.', () => {
+
+    it('should set queueType as "ALL" when not given', () => {
       const queueOption: SqsQueueOption = {
         name: faker.datatype.string(10),
       };
