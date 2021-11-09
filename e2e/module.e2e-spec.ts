@@ -108,16 +108,11 @@ describe('SqsModule', () => {
       expect(sqsService.producers.has(TestQueue.Test)).toBe(true);
     });
 
-    it('should call message handler when a new message has come', async (done) => {
-      jest.setTimeout(30000);
+    it('should call message handler when a new message has come', async () => {
+      jest.setTimeout(10000);
 
       const sqsService = module.get(SqsService);
       const id = String(Math.floor(Math.random() * 1000000));
-      fakeProcessor.mockImplementationOnce((message) => {
-        expect(message).toBeTruthy();
-        expect(JSON.parse(message.Body)).toStrictEqual({ test: true });
-        done();
-      });
 
       await sqsService.send(TestQueue.Test, {
         id,
@@ -126,10 +121,20 @@ describe('SqsModule', () => {
         groupId: 'test',
         deduplicationId: id,
       });
+
+      await waitForExpect(
+        () => {
+          const message = fakeProcessor.mock.calls[0][0];
+          expect(message).toBeTruthy();
+          expect(JSON.parse(message.Body)).toStrictEqual({ test: true });
+        },
+        5000,
+        100,
+      );
     });
 
     it('should call message handler multiple times when multiple messages have come', async () => {
-      jest.setTimeout(5000);
+      jest.setTimeout(10000);
 
       const sqsService = module.get(SqsService);
       const groupId = String(Math.floor(Math.random() * 1000000));
@@ -158,27 +163,34 @@ describe('SqsModule', () => {
       );
     });
 
-    it('should call the registered error handler when an error occurs', async (done) => {
+    it('should call the registered error handler when an error occurs', async () => {
       jest.setTimeout(10000);
 
       const sqsService = module.get(SqsService);
       const id = String(Math.floor(Math.random() * 1000000));
-      fakeProcessor.mockImplementationOnce(() => {
-        throw new Error('test');
-      });
-      fakeErrorEventHandler.mockImplementationOnce((error) => {
-        expect(error).toBeInstanceOf(Error);
-        expect(error.message).toContain('test');
-        done();
-      });
-
-      await sqsService.send(TestQueue.Test, {
+      const payload = {
         id,
         body: { test: true },
         delaySeconds: 0,
         groupId: 'test',
         deduplicationId: id,
+      };
+
+      class TestError extends Error {}
+      fakeProcessor.mockImplementationOnce(() => {
+        throw new TestError('test');
       });
+
+      await sqsService.send(TestQueue.Test, payload);
+
+      await waitForExpect(
+        () => {
+          expect(fakeErrorEventHandler.mock.calls[0][0]).toBeTruthy();
+          expect(fakeErrorEventHandler.mock.calls[0][0].constructor.name).toBe('TestError');
+        },
+        5000,
+        100,
+      );
     });
   });
 });
