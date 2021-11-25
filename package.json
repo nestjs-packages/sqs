@@ -46,7 +46,7 @@
     "eslint-plugin-import": "2.25.3",
     "faker": "5.5.3",
     "jest": "27.3.1",
-    "prettier": "2.4.1",
+    "prettier": "2.5.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "7.4.0",
