@@ -21,7 +21,7 @@
 
 ## Description
 
-nestjs-sqs is a project to make SQS easier to use and control some required flows with NestJS. This module provides decorator-based message handling suited for simple use.
+@nestjs-packages/sqs is a project to make SQS easier to use and control some required flows with NestJS. This module provides decorator-based message handling suited for simple use.
 
 This library internally uses [bbc/sqs-producer](https://github.com/bbc/sqs-producer) and [bbc/sqs-consumer](https://github.com/bbc/sqs-consumer)
 
