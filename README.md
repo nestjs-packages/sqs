@@ -48,18 +48,18 @@ after forRootAsync method called, every sqs produers and consumers use SQS confi
     SqsModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService) => {
-        const config = {
-          region: configSerivce.region,
-          endpoint: configSerivce.endpoint,
-          accountNumber: configSerivce.accountNumber,
+        const config: SqsConfigOption = {
+          region: configService.region,
+          endpoint: configService.endpoint,
+          accountNumber: configService.accountNumber,
           credentials: {
-            accessKeyId: configSerivce.accessKeyId,
+            accessKeyId: configService.accessKeyId,
             secretAccessKey: configService.secretAccessKey,
           },
         };
         return SqsConfig(config);
       },
-      injects: [ConfigSerivce],
+      injects: [configService],
     }),
   ],
 })
