@@ -7,9 +7,9 @@
   "scripts": {
     "set": "docker-compose -f docker-compose.yml up",
     "set:down": "docker-compose -f docker-compose.yml down",
-    "format": "npx prettier --write **/*.{ts,json}",
-    "lint": "npx eslint \"lib/**/*.ts\" --fix",
-    "build": "npx rimraf -rf dist && tsc -p tsconfig.json",
+    "format": "prettier --write **/*.{ts,json}",
+    "lint": "eslint \"lib/**/*.ts\" --fix",
+    "build": "rimraf -rf dist && tsc -p tsconfig.json",
     "test": "jest",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --detectOpenHandles --runInBand --forceExit",
