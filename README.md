@@ -12,12 +12,16 @@
     <img src="https://img.shields.io/npm/v/@nestjs-packages/sqs.svg" alt="NPM Version" />
   </a>
   <a href="https://www.npmjs.com/package/@nestjs-packages/sqs" target="_blank">
+    <img src="https://img.shields.io/npm/dm/@nestjs-packages/sqs.svg" alt="NPM downloads" />
+  </a>
+  <a href="https://www.npmjs.com/package/@nestjs-packages/sqs" target="_blank">
     <img src="https://img.shields.io/npm/l/@nestjs-packages/sqs.svg" alt="Package License" />
   </a>
   <a href="https://codecov.io/gh/nestjs-packages/sqs" target="_blank">
     <img src="https://codecov.io/gh/nestjs-packages/sqs/branch/master/graph/badge.svg?token=pMLNZOxXiq" alt="codecov coverage" />
   </a>
 </p>
+
 
 ## Description
 
