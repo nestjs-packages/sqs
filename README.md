@@ -61,9 +61,9 @@ after forRootAsync method called, every sqs produers and consumers use SQS confi
             secretAccessKey: configService.secretAccessKey,
           },
         };
-        return SqsConfig(config);
+        return new SqsConfig(config);
       },
-      injects: [configService],
+      inject: [ConfigService],
     }),
   ],
 })
