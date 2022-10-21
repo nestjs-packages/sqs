@@ -33,9 +33,9 @@
     "sqs-producer": "^2.1.0"
   },
   "devDependencies": {
-    "@nestjs/common": "9.1.4",
-    "@nestjs/core": "9.1.4",
-    "@nestjs/testing": "9.1.4",
+    "@nestjs/common": "9.1.5",
+    "@nestjs/core": "9.1.5",
+    "@nestjs/testing": "9.1.5",
     "@types/faker": "5.5.9",
     "@types/jest": "29.2.0",
     "@typescript-eslint/eslint-plugin": "5.40.1",
