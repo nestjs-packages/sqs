@@ -51,7 +51,7 @@
     "reflect-metadata": "0.1.13",
     "rimraf": "4.4.1",
     "rxjs": "7.8.0",
-    "ts-jest": "29.0.5",
+    "ts-jest": "29.1.0",
     "ts-node": "10.9.1",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.0.3",
