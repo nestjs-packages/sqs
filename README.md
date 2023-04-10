@@ -112,6 +112,7 @@ One class can only handle one queue. so if you want to enroll dead letter queue,
 SqsService needs to be injected to produce the message.
 
 ```ts
+@Injectable()
 export class AppService {
   public constructor(
     private readonly sqsService: SqsService,
