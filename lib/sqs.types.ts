@@ -1,4 +1,4 @@
-import type { SQS } from 'aws-sdk';
+import { SQSClientConfig } from '@aws-sdk/client-sqs';
 import type { ConsumerOptions } from 'sqs-consumer';
 import type { Producer } from 'sqs-producer';
 
@@ -23,7 +23,7 @@ export type SqsConsumerOptions = Omit<
 
 export type SqsProducerOptions = Omit<ProducerOptions, 'queueUrl' | 'region' | 'sqs'>;
 
-export type SqsConfigOption = SQS.Types.ClientConfiguration & {
+export type SqsConfigOption = SQSClientConfig & {
   accountNumber: string;
 };
 

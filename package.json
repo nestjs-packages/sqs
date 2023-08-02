@@ -28,9 +28,9 @@
   "homepage": "https://github.com/nestjs-packages/sqs#readme",
   "dependencies": {
     "@nestjs-plus/discovery": "^2.0.2",
-    "aws-sdk": "^2.948.0",
-    "sqs-consumer": "^6.0.0",
-    "sqs-producer": "^2.1.0"
+    "aws-sdk": "^2.1425.0",
+    "sqs-consumer": "^7.2.2",
+    "sqs-producer": "^3.2.1"
   },
   "devDependencies": {
     "@nestjs/common": "9.4.3",

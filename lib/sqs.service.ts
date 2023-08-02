@@ -1,7 +1,6 @@
 import { Consumer } from 'sqs-consumer';
 import { Producer } from 'sqs-producer';
 import type { QueueAttributeName } from 'aws-sdk/clients/sqs';
-import * as SQS from 'aws-sdk/clients/sqs';
 import { Injectable, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common';
 
 import { SqsConfig } from './sqs.config';
@@ -9,6 +8,7 @@ import { QueueName, SqsMetadata, SqsQueueOption, SqsQueueType } from './sqs.type
 import { SqsStorage } from './sqs.storage';
 import { Message } from './sqs.interfaces';
 import { SqsMetadataScanner } from './sqs-metadata.scanner';
+import { GetQueueAttributesCommand, PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
 
 @Injectable()
 export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
@@ -20,7 +20,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
   public async onApplicationBootstrap(): Promise<void> {
     const sqsConfig = this.sqsConfig.option;
     const sqsQueueOptions = SqsStorage.getQueueOptions();
-    const sqs: SQS = new SQS(sqsConfig);
+    const sqs: SQSClient = new SQSClient(sqsConfig);
 
     const sqsQueueConsumerOptions = sqsQueueOptions.filter(
       (v) => v.type === SqsQueueType.All || v.type === SqsQueueType.Consumer,
@@ -42,7 +42,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     }
   }
 
-  private createConsumer(option: SqsQueueOption, sqs: AWS.SQS) {
+  private createConsumer(option: SqsQueueOption, sqs: SQSClient) {
     const { endpoint, accountNumber, region } = this.sqsConfig.option;
     const { name, consumerOptions } = option;
     const metadata: SqsMetadata = this.scanner.sqsMetadatas.get(name);
@@ -56,15 +56,15 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
 
     const consumer = Consumer.create({
       queueUrl: `${endpoint}/${accountNumber}/${name}`,
-      region,
+      region: region as string,
       sqs,
       ...consumerOptions,
-      ...(batch
+         ...(batch
         ? {
             handleMessageBatch: handleMessage,
           }
         : { handleMessage }),
-    });
+    })
 
     for (const eventMetadata of eventHandlers) {
       if (eventMetadata) {
@@ -74,7 +74,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     this.consumers.set(name, consumer);
   }
 
-  private createProducer(option: SqsQueueOption, sqs: AWS.SQS) {
+  private createProducer(option: SqsQueueOption, sqs: SQSClient) {
     const { endpoint, accountNumber, region } = this.sqsConfig.option;
     const { name, producerOptions } = option;
     if (this.producers.has(name)) {
@@ -83,7 +83,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
 
     const producer = Producer.create({
       queueUrl: `${endpoint}/${accountNumber}/${name}`,
-      region,
+      region: region as string,
       sqs,
       ...producerOptions,
     });
@@ -102,7 +102,7 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
     }
 
     const { sqs, queueUrl } = (this.consumers.get(name) ?? this.producers.get(name)) as {
-      sqs: SQS;
+      sqs: SQSClient;
       queueUrl: string;
     };
     if (!sqs) {
@@ -121,21 +121,14 @@ export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
    */
   public async purgeQueue(name: QueueName) {
     const { sqs, queueUrl } = this.getQueueInfo(name);
-    return sqs
-      .purgeQueue({
-        QueueUrl: queueUrl,
-      })
-      .promise();
+    const command = new PurgeQueueCommand({QueueUrl: queueUrl});
+    return await sqs.send(command);
   }
 
   public async getQueueAttributes(name: QueueName) {
     const { sqs, queueUrl } = this.getQueueInfo(name);
-    const response = await sqs
-      .getQueueAttributes({
-        QueueUrl: queueUrl,
-        AttributeNames: ['All'],
-      })
-      .promise();
+    const command = new GetQueueAttributesCommand({QueueUrl: queueUrl, AttributeNames: ["All"]});
+    const response = await sqs.send(command);
     return response.Attributes as { [key in QueueAttributeName]: string };
   }
 
