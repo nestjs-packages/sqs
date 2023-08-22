@@ -1,6 +1,5 @@
 import { Consumer } from 'sqs-consumer';
 import { Producer } from 'sqs-producer';
-import type { QueueAttributeName } from 'aws-sdk/clients/sqs';
 import { Injectable, OnApplicationBootstrap, OnModuleDestroy } from '@nestjs/common';
 
 import { SqsConfig } from './sqs.config';
@@ -8,7 +7,7 @@ import { QueueName, SqsMetadata, SqsQueueOption, SqsQueueType } from './sqs.type
 import { SqsStorage } from './sqs.storage';
 import { Message } from './sqs.interfaces';
 import { SqsMetadataScanner } from './sqs-metadata.scanner';
-import { GetQueueAttributesCommand, PurgeQueueCommand, SQSClient } from '@aws-sdk/client-sqs';
+import { GetQueueAttributesCommand, PurgeQueueCommand, SQSClient, QueueAttributeName } from '@aws-sdk/client-sqs';
 
 @Injectable()
 export class SqsService implements OnApplicationBootstrap, OnModuleDestroy {
