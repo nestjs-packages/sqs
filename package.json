@@ -37,7 +37,7 @@
     "@nestjs/core": "9.4.3",
     "@nestjs/testing": "9.4.3",
     "@types/faker": "5.5.9",
-    "@types/jest": "29.5.3",
+    "@types/jest": "29.5.4",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "codecov": "3.8.3",
